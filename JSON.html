@@ -1,0 +1,154 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>JSON Practice</title>
+</head>
+<h1 style="text-align: center; color: #0000ff; font-size: 35px;"> JSON Practice </h1>
+<body style="background-color: #ffffd8;">
+
+	<form>
+		<br>
+		<select id = "genre">
+            <option value = "Classic Rock" selected>Classic Rock</option>
+            <option value = "Hard Rock">Hard Rock</option>
+            <option value = "Progressive Rock">Progressive Rock</option>
+            <option value = "Country">Country</option>
+            <option value = "Alternative">Alternative</option>
+            <option value = "Electropop">Electropop</option>
+            <option value = "Pop">Pop</option>
+            <option value = "Classic Pop">Classic Pop</option>
+            <option value = "Blues">Blues</option>
+            <option value = "Funk">Funk</option>
+            <option value = "Post-punk">Post-punk</option>
+            <option value = "Indie">Indie</option>
+         </select>
+		<input type="button" value="Filter" onclick="filterGenre()">
+	</form>
+
+	<p id="write" style="font-size: 20px;"></p>
+	
+	<script language = "javascript">
+		let mySetList = 
+		{
+		    "heading": "The Cover Band",
+		    "Songs": [
+		    {
+		    	"Artist": [ "John Lennon", "Paul McCartney" ],
+		        "Title": "All You Need Is Love",
+		        "MusicGenre": [ "Classic Rock" ],
+		        "YearOfRelease": "1999"
+		    },
+		    {
+		        "Artist":[ "Freddie Mercury" ],
+		        "Title": "Bohemian Rhapsody",
+		        "MusicGenre": [ "Hard Rock", "Progressive Rock", "Pop" ],
+		        "YearOfRelease": "1975"
+		    },
+		    {
+		        "Artist": [ "Don Henley", "Glenn Frey" ],
+		        "Title": "Desperado",
+		        "MusicGenre": [ "Classic Rock" ],
+		        "YearOfRelease": "1973"
+		    },
+		    {
+		        "Artist": [ "Michael Jackson" ],
+		        "Title": "Bille Jean",
+		        "MusicGenre": [ "Classic Pop", "Blues", "Funk" ],
+		        "YearOfRelease": "1983"
+		    },
+		    {
+		        "Artist": [ "Sting" ],
+		        "Title": "Fields of Gold",
+		        "MusicGenre": [ "Classic Rock" ],
+		        "YearOfRelease": "2019"
+		    },
+		    {
+		        "Artist": [ "MGMT" ],
+		        "Title": "Electric Feel",
+		        "MusicGenre": [ "Alternative", "Electropop", "Post-punk" ],
+		        "YearOfRelease": "2007"
+		    },
+		    {
+		        "Artist": [ "Mark Foster", "Mark Pontius" ],
+		        "Title": "Pumped Up Kicks",
+		        "MusicGenre": [ "Alternative", "Indie" ],
+		        "YearOfRelease": "2010"
+		    },
+		    {
+		        "Artist": [ "Randy Travis" ],
+		        "Title": "Deeper Than the Holler",
+		        "MusicGenre": [ "Country" ],
+		        "YearOfRelease": "1988"
+		    },
+		    {
+		        "Artist": [ "Tim McGraw" ],
+		        "Title": "My Little Girl",
+		        "MusicGenre": [ "Country" ],
+		        "YearOfRelease": "2006"
+		    },
+		    {
+		        "Artist": [ "Darius Rucker" ],
+		        "Title": "Wagon Wheel",
+		        "MusicGenre": [ "Country" ],
+		        "YearOfRelease": "2013"
+		    }
+		    ]
+		}
+
+		let strSetList = JSON.stringify(mySetList);
+		let myObj = JSON.parse(strSetList);
+		let string = "";
+
+		for (i = 0; i < myObj.Songs.length; i++) {
+			string += "<strong>" + myObj.Songs[i].Title + "</strong>" + "<br />";
+			string += "Artist(s): "; 
+			for (j = 0; j < myObj.Songs[i].Artist.length; j++) {
+				string += myObj.Songs[i].Artist[j]; 
+				if (j < myObj.Songs[i].Artist.length - 1)
+					string += ", ";
+			}
+			string += "<br />" + "Music Genre(s): ";
+			for (k = 0; k < myObj.Songs[i].MusicGenre.length; k++) {
+				string += myObj.Songs[i].MusicGenre[k];
+				if (k < myObj.Songs[i].MusicGenre.length - 1)
+					string += ", ";
+			}
+			string += "<br />";
+			string += "Released " + myObj.Songs[i].YearOfRelease + "<br /> <br />";
+		}
+		document.getElementById("write").innerHTML = string;
+
+		function filterGenre() {
+			let str = "", genreType;
+			for (i = 0; i < myObj.Songs.length; i++) {
+				let sameGenre = false;
+				for (j = 0; j < myObj.Songs[i].MusicGenre.length; j++) {
+					genreType = myObj.Songs[i].MusicGenre[j];
+					if(genreType == document.getElementById("genre").value)
+						sameGenre = true; 
+				}
+				if(sameGenre == true) {
+					str += "<strong>" + myObj.Songs[i].Title + "</strong>" + "<br />";
+					str += "Artist(s): "; 
+					for (k = 0; k < myObj.Songs[i].Artist.length; k++) {
+						str += myObj.Songs[i].Artist[k]; 
+						if (k < myObj.Songs[i].Artist.length - 1)
+							str += ", ";
+					}
+					str += "<br />" + "Music Genre(s): ";
+					for (l = 0; l < myObj.Songs[i].MusicGenre.length; l++) {
+						str += myObj.Songs[i].MusicGenre[l];
+						//string += genreType;
+						if (l < myObj.Songs[i].MusicGenre.length - 1)
+							str += ", ";
+					}
+					str += "<br />";
+					str += "Released " + myObj.Songs[i].YearOfRelease + "<br /> <br />";
+				}
+			}
+			document.write('<p style="font-size: 20px; background-color: #ffffd8;">' + str + '</p>');
+		}
+	</script>
+</body>
+</html>
